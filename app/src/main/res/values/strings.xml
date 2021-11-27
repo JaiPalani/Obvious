@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Obvious</string>
+
+    <string name="info_title">Info</string>
+    <string name="oops_title">Oops!</string>
+    <string name="error">Error!</string>
+
+    <string name="app_close_msg">Do you really want to close the app?</string>
 </resources>
