@@ -3,6 +3,7 @@ package com.obvious.nasa.activity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.obvious.nasa.R;
+import com.obvious.nasa.helpers.AppConstants;
 import com.obvious.nasa.models.NASADataModel;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +37,6 @@ import java.util.List;
  */
 
 public class MainActivity extends BaseActivity {
-    ArrayList<NASADataModel> dataModelArrayList;
     ArrayList<String> imageURL;
 
     @Override
@@ -56,9 +57,9 @@ public class MainActivity extends BaseActivity {
         gridview.setAdapter(new ImageAdapter(this, imageURL));
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                /*Intent i = new Intent(getApplicationContext(), FullImageActivity.class);
+                Intent i = new Intent(getApplicationContext(), DetailActivity.class);
                 i.putExtra("id", position);
-                startActivity(i);*/
+                startActivity(i);
             }
         });
 
@@ -74,16 +75,21 @@ public class MainActivity extends BaseActivity {
             Reader reader = new InputStreamReader(ims);
 
             Type listType = new TypeToken<List<NASADataModel>>(){}.getType();
-            dataModelArrayList = gson.fromJson(reader, listType);
+            AppConstants.dataModelArrayList = gson.fromJson(reader, listType);
 
             imageURL = new ArrayList<>();
-            for (NASADataModel nasaDataModel: dataModelArrayList) {
+            for (NASADataModel nasaDataModel: AppConstants.dataModelArrayList) {
                 imageURL.add(nasaDataModel.getUrl());
             }
 
         }catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     class ImageAdapter extends BaseAdapter {
